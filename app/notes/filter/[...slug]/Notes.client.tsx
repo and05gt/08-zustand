@@ -9,8 +9,6 @@ import { Toaster } from 'react-hot-toast';
 import SearchBox from '@/components/SearchBox/SearchBox';
 import Pagination from '@/components/Pagination/Pagination';
 import NoteList from '@/components/NoteList/NoteList';
-import Modal from '@/components/Modal/Modal';
-import NoteForm from '@/components/NoteForm/NoteForm';
 import css from './NotesPage.module.css';
 
 interface NotesClientProps {
@@ -20,7 +18,6 @@ interface NotesClientProps {
 const NotesClient = ({ tag }: NotesClientProps) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
-  const [isOpenModal, setIsOpenModal] = useState(false);
 
   const { data, isLoading, isError, isSuccess, error } = useQuery({
     queryKey: ['notes', searchQuery, currentPage, tag],
@@ -38,9 +35,6 @@ const NotesClient = ({ tag }: NotesClientProps) => {
     setSearchQuery(query);
     setCurrentPage(1);
   }, 500);
-
-  const openModal = () => setIsOpenModal(true);
-  const closeModal = () => setIsOpenModal(false);
 
   return (
     <div className={css.app}>
@@ -69,11 +63,6 @@ const NotesClient = ({ tag }: NotesClientProps) => {
           ))}
       </div>
 
-      {isOpenModal && (
-        <Modal onClose={closeModal}>
-          <NoteForm onCancel={closeModal} />
-        </Modal>
-      )}
       <Toaster position="top-center" />
     </div>
   );
